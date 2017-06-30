@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "ThunderCrossMFC.h"
 #include "ThunderCrossMFCDlg.h"
+#include "GamePageDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -64,6 +65,7 @@ BEGIN_MESSAGE_MAP(CThunderCrossMFCDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_STN_CLICKED(IDC_StartGame, &CThunderCrossMFCDlg::OnStnClickedStartgame)
 END_MESSAGE_MAP()
 
 
@@ -145,10 +147,21 @@ void CThunderCrossMFCDlg::OnPaint()
 	}
 }
 
-//当用户拖动最小化窗口时系统调用此函数取得光标
-//显示。
 HCURSOR CThunderCrossMFCDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+extern void play();
+void CThunderCrossMFCDlg::OnStnClickedStartgame()
+{
+	GamePageDlg *GamePage = new GamePageDlg;
+	ShowWindow(SW_HIDE);
+	GamePage->Create(IDD_GamePage, this);
+	GamePage->UpdateData(FALSE);
+	GamePage->ShowWindow(SW_SHOW);
+	GamePage->RedrawWindow();
+	play();
+	GamePage->DestroyWindow();
+	free(GamePage);
+}
