@@ -5,6 +5,9 @@
 #include <iostream>
 #include <conio.h>
 #include <ctime>
-
-#define SizeX 80
-#define SizeY 40
+#include <wingdi.h>
+#include "ThunderCrossMFCDlg.h"
+#include "resource.h"
+#define SizeX 500
+#define SizeY 900
+#define Hero 100

@@ -25,6 +25,8 @@ void self::create(int X, int Y)
 	self::loc[0] = X;
 	self::loc[1] = Y;
 	//PrintChar("*", 1, X, Y);
+
+
 }
 
 void self::move(int key)

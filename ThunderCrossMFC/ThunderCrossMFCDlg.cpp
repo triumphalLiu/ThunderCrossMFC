@@ -6,9 +6,9 @@
 #include "ThunderCrossMFC.h"
 #include "ThunderCrossMFCDlg.h"
 #include "afxdialogex.h"
+//音乐控制
 #include <mmsystem.h>
 #pragma comment(lib, "Winmm.lib")
-
 #define PATH "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\game_music.wav"
 
 #ifdef _DEBUG
@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CThunderCrossMFCDlg, CDialogEx)
 	ON_STN_CLICKED(IDC_StartGame, &CThunderCrossMFCDlg::OnStnClickedStartgame)
 	ON_STN_CLICKED(IDC_SoundToOFF, &CThunderCrossMFCDlg::OnStnClickedSoundtooff)
 	ON_STN_CLICKED(IDC_SoundToOn, &CThunderCrossMFCDlg::OnStnClickedSoundtoon)
+	ON_STN_CLICKED(IDC_ExitGame, &CThunderCrossMFCDlg::OnStnClickedExitgame)
 END_MESSAGE_MAP()
 
 
@@ -103,8 +104,7 @@ BOOL CThunderCrossMFCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC);
-
+	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC); //初始化声音
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -155,7 +155,7 @@ HCURSOR CThunderCrossMFCDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-//Game Control
+//游戏控制
 extern void play();
 void CThunderCrossMFCDlg::OnStnClickedStartgame()
 {
@@ -165,12 +165,22 @@ void CThunderCrossMFCDlg::OnStnClickedStartgame()
 	edit1->ShowWindow(SW_HIDE);
 	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_GameName);
 	edit2->ShowWindow(SW_HIDE);
+	CEdit *edit3 = (CEdit*)GetDlgItem(IDC_ExitGame);
+	edit3->ShowWindow(SW_HIDE);
 	play(); 
 	edit0->ShowWindow(SW_SHOW);
 	edit1->ShowWindow(SW_SHOW);
 	edit2->ShowWindow(SW_SHOW);
+	edit3->ShowWindow(SW_SHOW);
 }
-//Sound Control
+
+void CThunderCrossMFCDlg::OnStnClickedExitgame()
+{
+	DestroyWindow();
+	exit(0);
+}
+
+//音乐控制
 bool sound = 1;
 
 void CThunderCrossMFCDlg::OnStnClickedSoundtooff()
@@ -182,7 +192,6 @@ void CThunderCrossMFCDlg::OnStnClickedSoundtooff()
 	edit2->ShowWindow(SW_SHOW);
 	sound = 0;
 }
-
 
 void CThunderCrossMFCDlg::OnStnClickedSoundtoon()
 {

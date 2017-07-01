@@ -35,4 +35,5 @@ public:
 	afx_msg void OnStnClickedStartgame();
 	afx_msg void OnStnClickedSoundtooff();
 	afx_msg void OnStnClickedSoundtoon();
+	afx_msg void OnStnClickedExitgame();
 };

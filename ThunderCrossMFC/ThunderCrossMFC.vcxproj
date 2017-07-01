@@ -213,6 +213,7 @@
   <ItemGroup>
     <Image Include="res\background.bmp" />
     <Image Include="res\gameload.bmp" />
+    <Image Include="res\game_exit.bmp" />
     <Image Include="res\game_pause_pressed.bmp" />
     <Image Include="res\game_resume_pressed.bmp" />
     <Image Include="res\game_start.bmp" />
