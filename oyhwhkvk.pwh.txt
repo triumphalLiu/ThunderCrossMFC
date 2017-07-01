@@ -1,0 +1,28 @@
+﻿游戏开始界面完成 游戏过程和游戏结束画面待完成
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#	new file:   ThunderCrossMFC/GamePageDlg.cpp
+#	new file:   ThunderCrossMFC/GamePageDlg.h
+#	modified:   ThunderCrossMFC/Resource.h
+#	modified:   ThunderCrossMFC/ThunderCrossMFC.rc
+#	modified:   ThunderCrossMFC/ThunderCrossMFC.vcxproj
+#	modified:   ThunderCrossMFC/ThunderCrossMFC.vcxproj.filters
+#	modified:   ThunderCrossMFC/ThunderCrossMFCDlg.cpp
+#	modified:   ThunderCrossMFC/ThunderCrossMFCDlg.h
+#	new file:   ThunderCrossMFC/bullet.h
+#	new file:   ThunderCrossMFC/common.h
+#	new file:   ThunderCrossMFC/enemy.h
+#	new file:   ThunderCrossMFC/play.cpp
+#	new file:   ThunderCrossMFC/res/background.bmp
+#	new file:   ThunderCrossMFC/res/game_start.bmp
+#	new file:   ThunderCrossMFC/res/gameload.bmp
+#	new file:   ThunderCrossMFC/res/hero.bmp
+#	new file:   ThunderCrossMFC/res/shoot_copyright.bmp
+#	new file:   ThunderCrossMFC/self.h
+#
+# Changes not staged for commit:
+#	deleted:    ThunderCrossMFC/ReadMe.txt
+#
+

@@ -5,13 +5,15 @@
 #include "stdafx.h"
 #include "ThunderCrossMFC.h"
 #include "ThunderCrossMFCDlg.h"
-#include "GamePageDlg.h"
 #include "afxdialogex.h"
+#include <mmsystem.h>
+#pragma comment(lib, "Winmm.lib")
+
+#define PATH "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\game_music.wav"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
@@ -48,8 +50,6 @@ END_MESSAGE_MAP()
 
 // CThunderCrossMFCDlg 对话框
 
-
-
 CThunderCrossMFCDlg::CThunderCrossMFCDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_THUNDERCROSSMFC_DIALOG, pParent)
 {
@@ -66,6 +66,8 @@ BEGIN_MESSAGE_MAP(CThunderCrossMFCDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_STN_CLICKED(IDC_StartGame, &CThunderCrossMFCDlg::OnStnClickedStartgame)
+	ON_STN_CLICKED(IDC_SoundToOFF, &CThunderCrossMFCDlg::OnStnClickedSoundtooff)
+	ON_STN_CLICKED(IDC_SoundToOn, &CThunderCrossMFCDlg::OnStnClickedSoundtoon)
 END_MESSAGE_MAP()
 
 
@@ -101,6 +103,7 @@ BOOL CThunderCrossMFCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -152,16 +155,41 @@ HCURSOR CThunderCrossMFCDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+//Game Control
 extern void play();
 void CThunderCrossMFCDlg::OnStnClickedStartgame()
 {
-	GamePageDlg *GamePage = new GamePageDlg;
-	ShowWindow(SW_HIDE);
-	GamePage->Create(IDD_GamePage, this);
-	GamePage->UpdateData(FALSE);
-	GamePage->ShowWindow(SW_SHOW);
-	GamePage->RedrawWindow();
-	play();
-	GamePage->DestroyWindow();
-	free(GamePage);
+	CEdit *edit0 = (CEdit*)GetDlgItem(IDC_StartGame);
+	edit0->ShowWindow(SW_HIDE);
+	CEdit *edit1 = (CEdit*)GetDlgItem(IDC_GameIcon);
+	edit1->ShowWindow(SW_HIDE);
+	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_GameName);
+	edit2->ShowWindow(SW_HIDE);
+	play(); 
+	edit0->ShowWindow(SW_SHOW);
+	edit1->ShowWindow(SW_SHOW);
+	edit2->ShowWindow(SW_SHOW);
+}
+//Sound Control
+bool sound = 1;
+
+void CThunderCrossMFCDlg::OnStnClickedSoundtooff()
+{
+	PlaySound(NULL, NULL, SND_FILENAME);
+	CEdit *edit1 = (CEdit*)GetDlgItem(IDC_SoundToOFF);
+	edit1->ShowWindow(SW_HIDE);
+	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_SoundToOn);
+	edit2->ShowWindow(SW_SHOW);
+	sound = 0;
+}
+
+
+void CThunderCrossMFCDlg::OnStnClickedSoundtoon()
+{
+	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC);
+	CEdit *edit1 = (CEdit*)GetDlgItem(IDC_SoundToOn);
+	edit1->ShowWindow(SW_HIDE);
+	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_SoundToOFF);
+	edit2->ShowWindow(SW_SHOW);
+	sound = 1;
 }

@@ -13,6 +13,7 @@ void play()
 	//游戏开始
 	self plane; //新建己方对象
 	plane.create(SizeX / 2, SizeY); //初始化飞机
+	/*
 	bullet Bullet; //新建子弹对象
 	Bullet.init();
 	enemy Enemy;
@@ -72,7 +73,7 @@ void play()
 				Bullet.count = 0;
 			}
 		}
-	}
+	}*/
 	CString buffer;
 	buffer.Format(_T("你的分数是1"));
 	AfxMessageBox(buffer);

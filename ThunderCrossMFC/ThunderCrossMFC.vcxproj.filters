@@ -30,9 +30,6 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="GamePageDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -54,9 +51,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePageDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="play.cpp">
@@ -90,6 +84,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\hero.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\game_pause_pressed.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\game_resume_pressed.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
