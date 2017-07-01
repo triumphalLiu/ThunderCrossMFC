@@ -1,31 +1,16 @@
-#pragma once
-#include "common.h"
-#define PATH_BULLET "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\bullet_self.bmp"
-struct Bair {
-	int loc[2];
-	int flag;
-	CDC *pdc;
-	Bair *next;
-};
-
-class bullet
+#include "bullet.h"
+#include "stdafx.h"
+/*void bullet::end()
 {
-public:
-	bullet();
-	~bullet();
-	Bair *head;
-	int count;
-	int flag; //0 enemy 1 self
-	void init();
-	Bair *add(Bair *, int, int, int);
-	Bair *move(Bair *);
-	Bair *del(Bair *, Bair *);
-	bool check(Bair *&, int, int, int);
-private:
+while (bullet::head != NULL)
+{
+Bair *temp = bullet::head;
+Bair *new_head = bullet::head->next;
+bullet::del(temp, bullet::head);
+bullet::head = new_head;
+}
+}*/
 
-};
-
-//extern void PrintChar(char *ch, UINT count, UINT x, UINT y);
 void bullet::init()
 {
 	bullet::count = 0;

@@ -13,3 +13,5 @@
 #define SizeX 500
 #define SizeY 900
 #define Hero 100
+#define BulletX 5
+#define BulletY 11

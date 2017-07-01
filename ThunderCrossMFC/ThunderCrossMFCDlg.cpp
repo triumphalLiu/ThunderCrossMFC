@@ -2,6 +2,7 @@
 #include "ThunderCrossMFC.h"
 #include "ThunderCrossMFCDlg.h"
 #include "afxdialogex.h"
+#include "common.h"
 //音乐控制
 #include <mmsystem.h>
 #pragma comment(lib, "Winmm.lib")
@@ -153,7 +154,7 @@ HCURSOR CThunderCrossMFCDlg::OnQueryDragIcon()
 }
 
 //游戏控制
-extern void play();
+extern void play(CWnd *);
 void CThunderCrossMFCDlg::OnStnClickedStartgame()
 {
 	CEdit *edit0 = (CEdit*)GetDlgItem(IDC_StartGame);
@@ -168,8 +169,12 @@ void CThunderCrossMFCDlg::OnStnClickedStartgame()
 	CEdit *edit = (CEdit*)GetDlgItem(IDC_Hero);
 	edit->ShowWindow(SW_SHOW);
 	//显示有关内容
-	play(); 
+	CWnd *pwnd = GetDlgItem(IDC_Pause);
+	play(pwnd);
 	//重新显示相关内容
+	CEdit *edit_back = (CEdit*)GetDlgItem(IDC_STATIC);
+	edit_back->ShowWindow(SW_HIDE);
+	edit_back->ShowWindow(SW_SHOW);
 	edit0->ShowWindow(SW_SHOW);
 	edit1->ShowWindow(SW_SHOW);
 	edit2->ShowWindow(SW_SHOW);
@@ -204,4 +209,40 @@ void CThunderCrossMFCDlg::OnStnClickedSoundtoon()
 	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_SoundToOFF);
 	edit2->ShowWindow(SW_SHOW);
 	sound = 1;
+}
+
+//动态图片控制
+CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y)
+{
+	CString name(path);
+	//定义变量存储图片信息
+	BITMAPINFO *pBmpInfo;       //记录图像细节
+	BYTE *pBmpData;             //图像数据
+	BITMAPFILEHEADER bmpHeader; //文件头
+	BITMAPINFOHEADER bmpInfo;   //信息头
+	CFile bmpFile;              //记录打开文件
+
+								//以只读的方式打开文件 读取bmp图片各部分 bmp文件头 信息 数据
+	if (!bmpFile.Open(name, CFile::modeRead | CFile::typeBinary))
+		return NULL;
+	if (bmpFile.Read(&bmpHeader, sizeof(BITMAPFILEHEADER)) != sizeof(BITMAPFILEHEADER))
+		return NULL;
+	if (bmpFile.Read(&bmpInfo, sizeof(BITMAPINFOHEADER)) != sizeof(BITMAPINFOHEADER))
+		return NULL;
+	pBmpInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER)];
+	//为图像数据申请空间
+	memcpy(pBmpInfo, &bmpInfo, sizeof(BITMAPINFOHEADER));
+	DWORD dataBytes = bmpHeader.bfSize - bmpHeader.bfOffBits;
+	pBmpData = (BYTE*)new char[dataBytes];
+	bmpFile.Read(pBmpData, dataBytes);
+	bmpFile.Close();
+
+	//显示图像
+	CWnd *pWnd = AfxGetApp()->m_pMainWnd; //获得pictrue控件窗口的句柄
+	CDC *pDC = pWnd->GetDC(); //获得pictrue控件的DC
+	pDC->SetStretchBltMode(COLORONCOLOR);
+	StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, 0, 0,
+		bmpInfo.biWidth, bmpInfo.biHeight, pBmpData, pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
+	free(pBmpData);
+	return pDC;
 }

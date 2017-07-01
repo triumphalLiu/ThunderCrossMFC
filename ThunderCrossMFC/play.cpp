@@ -5,8 +5,8 @@
 #include "bullet.h"
 #pragma warning (disable:4996)
 int gap[6] = { 1000,800,600,400,200,80 };
-
-void play()
+int wait();
+void play(CWnd *pause)
 {
 	srand((unsigned)time(0));
 	//游戏开始
@@ -15,9 +15,9 @@ void play()
 	
 	self plane; //新建己方对象
 	plane.create((SizeX - Hero), SizeY - Hero); //初始化飞机
-	/*
 	bullet Bullet; //新建子弹对象
 	Bullet.init();
+	/*
 	enemy Enemy;
 	Enemy.init();
 	*/
@@ -39,7 +39,13 @@ void play()
 				case 'W': 
 				case 'D': 
 				case 'S': plane.move(key + 32); break;
-				case 'H': //Bullet.head = Bullet.add(Bullet.head, plane.loc[0], plane.loc[1], 1);break;
+				case 'P': 
+					pause->ShowWindow(SW_SHOW);
+					exit_game = wait();
+					pause->ShowWindow(SW_HIDE);
+					break;
+				case 'H': 
+					Bullet.head = Bullet.add(Bullet.head, plane.loc[0] + (Hero + BulletX / 2) / 2, plane.loc[1] - BulletY, 1); break;
 				default: break; //MessageBox(msg.hwnd, L"Other", 0, 0); break;
 				}
 			}
@@ -101,4 +107,30 @@ void play()
 	buffer.Format(_T("你的分数是%d, 最高关卡是%d"), plane.score, plane.level);
 	AfxMessageBox(buffer);
 	//游戏结束
+}
+
+int wait()
+{
+	MSG msg;
+	while (TRUE)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			//读取键盘消息
+			if (msg.message == WM_QUIT)
+				break;
+			else if (msg.message == WM_KEYDOWN)
+			{
+				unsigned key = msg.wParam;
+				switch (key) {
+				case 27:  return 1; //ESC
+				case 'P': return 0;
+				default: break;
+				}
+			}
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
+	return 1;
 }
