@@ -4,7 +4,6 @@
 #include "enemy.h"
 #include "bullet.h"
 #pragma warning (disable:4996)
-
 int gap[6] = { 1000,800,600,400,200,80 };
 
 void play()
@@ -13,10 +12,10 @@ void play()
 	//游戏开始
 	MSG msg;
 	bool exit_game = 0;
-	/*
+	
 	self plane; //新建己方对象
-	plane.create((SizeX - Hero) / 2, SizeY - Hero); //初始化飞机
-
+	plane.create((SizeX - Hero), SizeY - Hero); //初始化飞机
+	/*
 	bullet Bullet; //新建子弹对象
 	Bullet.init();
 	enemy Enemy;
@@ -26,6 +25,7 @@ void play()
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
+			//读取键盘消息
 			if (msg.message == WM_QUIT)
 			{
 				break;
@@ -38,9 +38,9 @@ void play()
 				case 'A': 
 				case 'W': 
 				case 'D': 
-				case 'S': //plane.move(key + 32); break;
+				case 'S': plane.move(key + 32); break;
 				case 'H': //Bullet.head = Bullet.add(Bullet.head, plane.loc[0], plane.loc[1], 1);break;
-				default:  MessageBox(msg.hwnd, L"Other", 0, 0); break;
+				default: break; //MessageBox(msg.hwnd, L"Other", 0, 0); break;
 				}
 			}
 			TranslateMessage(&msg);
@@ -48,8 +48,8 @@ void play()
 		}
 		else
 		{
-			/*
 			plane.level = plane.score / 20;	//升级
+			/*
 			if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
 				break;
 			//设定固定的时间
@@ -98,7 +98,7 @@ void play()
 			break;
 	}
 	CString buffer;
-	buffer.Format(_T("你的分数是1"));
+	buffer.Format(_T("你的分数是%d, 最高关卡是%d"), plane.score, plane.level);
 	AfxMessageBox(buffer);
 	//游戏结束
 }

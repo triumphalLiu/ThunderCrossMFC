@@ -1,7 +1,3 @@
-
-// ThunderCrossMFCDlg.cpp : 实现文件
-//
-
 #include "stdafx.h"
 #include "ThunderCrossMFC.h"
 #include "ThunderCrossMFCDlg.h"
@@ -9,6 +5,7 @@
 //音乐控制
 #include <mmsystem.h>
 #pragma comment(lib, "Winmm.lib")
+//TODO:发布前修改PATH
 #define PATH "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\game_music.wav"
 
 #ifdef _DEBUG
@@ -104,7 +101,7 @@ BOOL CThunderCrossMFCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC); //初始化声音
+	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP); //初始化声音
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -167,11 +164,17 @@ void CThunderCrossMFCDlg::OnStnClickedStartgame()
 	edit2->ShowWindow(SW_HIDE);
 	CEdit *edit3 = (CEdit*)GetDlgItem(IDC_ExitGame);
 	edit3->ShowWindow(SW_HIDE);
+	//隐藏不相关内容
+	CEdit *edit = (CEdit*)GetDlgItem(IDC_Hero);
+	edit->ShowWindow(SW_SHOW);
+	//显示有关内容
 	play(); 
+	//重新显示相关内容
 	edit0->ShowWindow(SW_SHOW);
 	edit1->ShowWindow(SW_SHOW);
 	edit2->ShowWindow(SW_SHOW);
 	edit3->ShowWindow(SW_SHOW);
+	edit->ShowWindow(SW_HIDE);
 }
 
 void CThunderCrossMFCDlg::OnStnClickedExitgame()
@@ -195,7 +198,7 @@ void CThunderCrossMFCDlg::OnStnClickedSoundtooff()
 
 void CThunderCrossMFCDlg::OnStnClickedSoundtoon()
 {
-	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	CEdit *edit1 = (CEdit*)GetDlgItem(IDC_SoundToOn);
 	edit1->ShowWindow(SW_HIDE);
 	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_SoundToOFF);

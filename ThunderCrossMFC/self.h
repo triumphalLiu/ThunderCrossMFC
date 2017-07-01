@@ -1,6 +1,7 @@
 #pragma once
 #include "common.h"
-
+//TODO:ÐÞ¸ÄPATH
+#define HERO "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\hero.bmp"
 class self
 {
 public:
@@ -12,11 +13,20 @@ public:
 	void create(int X, int Y);
 	void destroyed();
 	void move(int key);
+	void move_to(int X, int Y);
 private:
 
 };
 
 //extern void PrintChar(char *ch, UINT count, UINT x, UINT y);
+
+void self::move_to(int X, int Y)
+{
+	CWnd *pwnd = AfxGetApp()->m_pMainWnd;
+	HWND hwnd = pwnd->GetSafeHwnd();
+	HWND pict = GetDlgItem(hwnd, IDC_Hero);
+	MoveWindow(pict, X, Y, Hero, Hero, TRUE);
+}
 
 void self::create(int X, int Y)
 {
@@ -24,9 +34,8 @@ void self::create(int X, int Y)
 	self::score = 0;
 	self::loc[0] = X;
 	self::loc[1] = Y;
-	//PrintChar("*", 1, X, Y);
-
-
+	//PrintChar("*", 1, X, Y);	
+	self::move_to(X, Y);
 }
 
 void self::move(int key)
@@ -34,12 +43,13 @@ void self::move(int key)
 	//PrintChar(" ", 1, self::loc[0], self::loc[1]);//0 ×óÓÒx  1 ÉÏÏÂy
 	switch (key)
 	{
-	case 119: if (self::loc[1] > 0) self::loc[1] -= 1; break; //up
-	case 115: if (self::loc[1] < SizeY) self::loc[1] += 1; break; //down
-	case 97:  if (self::loc[0] > 0) self::loc[0] -= 1; break; //left
-	case 100: if (self::loc[0] < SizeX) self::loc[0] += 1; break;//right
+	case 119: if (self::loc[1] > Hero) self::loc[1] -= Hero; break; //up
+	case 115: if (self::loc[1] < SizeY - Hero) self::loc[1] += Hero; break; //down
+	case 97:  if (self::loc[0] > Hero / 2) self::loc[0] -= SizeX / 10; break; //left
+	case 100: if (self::loc[0] < SizeX - Hero) self::loc[0] += SizeX / 10; break;//right
 	}
 	//PrintChar("*", 1, self::loc[0], self::loc[1]);
+	self::move_to(self::loc[0], self::loc[1]);
 }
 
 

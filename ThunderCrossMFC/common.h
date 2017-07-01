@@ -7,7 +7,9 @@
 #include <ctime>
 #include <wingdi.h>
 #include "ThunderCrossMFCDlg.h"
-#include "resource.h"
+#include "Resource.h"
+
+
 #define SizeX 500
 #define SizeY 900
 #define Hero 100
