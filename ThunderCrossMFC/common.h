@@ -8,7 +8,7 @@
 #include <wingdi.h>
 #include "ThunderCrossMFCDlg.h"
 #include "Resource.h"
-
+#pragma warning (disable:4996)
 
 #define SizeX 500
 #define SizeY 900

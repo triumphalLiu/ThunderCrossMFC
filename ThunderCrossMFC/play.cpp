@@ -5,18 +5,21 @@
 #include "bullet.h"
 #pragma warning (disable:4996)
 int gap[6] = { 1000,800,600,400,200,80 };
+unsigned timercount = 0;
 int wait();
 void play(CWnd *pause)
 {
 	srand((unsigned)time(0));
 	//游戏开始
 	MSG msg;
+	CWnd *cwnd = AfxGetApp()->m_pMainWnd;
+	cwnd->SetTimer(1, 1, NULL);
 	bool exit_game = 0;
-	
 	self plane; //新建己方对象
 	plane.create((SizeX - Hero), SizeY - Hero); //初始化飞机
 	bullet Bullet; //新建子弹对象
 	Bullet.init();
+	Bair *p = Bullet.head;
 	/*
 	enemy Enemy;
 	Enemy.init();
@@ -46,14 +49,16 @@ void play(CWnd *pause)
 					break;
 				case 'H': 
 					Bullet.head = Bullet.add(Bullet.head, plane.loc[0] + (Hero + BulletX / 2) / 2, plane.loc[1] - BulletY, 1); break;
+				/*
 				case 'M':
 					Bullet.head = Bullet.move(Bullet.head); break;
-				/*case 'I':
+				*/
+				case 'I':
 					//For Debug
 					while (p != NULL)
 					{
 						p = p->next;
-					}break;*/
+					}break;
 				default: break; //MessageBox(msg.hwnd, L"Other", 0, 0); break;
 				}
 			}
@@ -63,19 +68,15 @@ void play(CWnd *pause)
 		else
 		{
 			plane.level = plane.score / 20;	//升级
-			/*
-			if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
-				break;
-			//设定固定的时间
-			Sleep(1);
-			Bullet.count += 1;
-			if (Bullet.count % 20 == 0)
+			Bullet.count = timercount;
+			if (Bullet.count % 5 == 0)
 			{
-				//子弹移动
-				Bullet.move(Bullet.head);
-				//判断子弹是否打中
+				Bullet.head = Bullet.move(Bullet.head);
+				//判断自己是否被子弹打中
 				if (0 == Bullet.check(Bullet.head, plane.loc[0], plane.loc[1], 1))
 					break;
+				/*
+				//判断子弹是否打中敌机
 				for (int i = 0; i < Enemy.count; ++i)
 				{
 					int x = Enemy.getinfo(i, 0);
@@ -105,9 +106,18 @@ void play(CWnd *pause)
 					Bullet.head = Bullet.add(Bullet.head, x, 0, 0);
 					Bullet.count = 0;
 				}
+				*/
+				if (Bullet.count == 1000)
+				{
+					timercount = Bullet.count = 0;
+				}
 			}
-			*/	
 		}
+		/*
+		//判断有没有碰到敌机
+		if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
+			break;
+		*/
 		if (exit_game)
 			break;
 	}

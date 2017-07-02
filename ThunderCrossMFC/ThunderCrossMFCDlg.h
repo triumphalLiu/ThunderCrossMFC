@@ -37,4 +37,5 @@ public:
 	afx_msg void OnStnClickedSoundtoon();
 	afx_msg void OnStnClickedExitgame();
 	CDC*AddPhotoActively(char *path, int X, int Y); 
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

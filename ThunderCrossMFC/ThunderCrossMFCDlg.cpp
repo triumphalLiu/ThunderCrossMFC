@@ -65,8 +65,22 @@ BEGIN_MESSAGE_MAP(CThunderCrossMFCDlg, CDialogEx)
 	ON_STN_CLICKED(IDC_SoundToOFF, &CThunderCrossMFCDlg::OnStnClickedSoundtooff)
 	ON_STN_CLICKED(IDC_SoundToOn, &CThunderCrossMFCDlg::OnStnClickedSoundtoon)
 	ON_STN_CLICKED(IDC_ExitGame, &CThunderCrossMFCDlg::OnStnClickedExitgame)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
+
+//读取图片结构体
+struct PhotoInfo {
+	BITMAPINFO *pBmpInfo;       //记录图像细节
+	BYTE *pBmpData;             //图像数据
+	BITMAPFILEHEADER bmpHeader; //文件头
+	BITMAPINFOHEADER bmpInfo;   //信息头
+	CFile bmpFile;              //记录打开文件
+	char *path;
+	PhotoInfo *next;
+};
+PhotoInfo *photohead = NULL;
+PhotoInfo *load_photo(PhotoInfo *head, char *path);
 
 // CThunderCrossMFCDlg 消息处理程序
 
@@ -101,6 +115,8 @@ BOOL CThunderCrossMFCDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	PlaySound(TEXT(PATH_MUSIC), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP); //初始化声音
+	photohead = load_photo(photohead, PATH_BACK);
+	photohead = load_photo(photohead, PATH_BULLET);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -210,41 +226,66 @@ void CThunderCrossMFCDlg::OnStnClickedSoundtoon()
 }
 
 //动态图片控制
-CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y)
+
+PhotoInfo *load_photo(PhotoInfo *head, char *path)
 {
 	CString name(path);
-	//定义变量存储图片信息
-	BITMAPINFO *pBmpInfo;       //记录图像细节
-	BYTE *pBmpData;             //图像数据
-	BITMAPFILEHEADER bmpHeader; //文件头
-	BITMAPINFOHEADER bmpInfo;   //信息头
-	CFile bmpFile;              //记录打开文件
-
-								//以只读的方式打开文件 读取bmp图片各部分 bmp文件头 信息 数据
-	if (!bmpFile.Open(name, CFile::modeRead | CFile::typeBinary))
+	PhotoInfo *p = new PhotoInfo;
+	p->next = NULL;
+	if (!p->bmpFile.Open(name, CFile::modeRead | CFile::typeBinary))
 		return NULL;
-	if (bmpFile.Read(&bmpHeader, sizeof(BITMAPFILEHEADER)) != sizeof(BITMAPFILEHEADER))
+	if (p->bmpFile.Read(&p->bmpHeader, sizeof(BITMAPFILEHEADER)) != sizeof(BITMAPFILEHEADER))
 		return NULL;
-	if (bmpFile.Read(&bmpInfo, sizeof(BITMAPINFOHEADER)) != sizeof(BITMAPINFOHEADER))
+	if (p->bmpFile.Read(&p->bmpInfo, sizeof(BITMAPINFOHEADER)) != sizeof(BITMAPINFOHEADER))
 		return NULL;
-	pBmpInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER)];
+	p->pBmpInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER)];
 	//为图像数据申请空间
-	memcpy(pBmpInfo, &bmpInfo, sizeof(BITMAPINFOHEADER));
-	DWORD dataBytes = bmpHeader.bfSize - bmpHeader.bfOffBits;
-	pBmpData = (BYTE*)new char[dataBytes];
-	bmpFile.Read(pBmpData, dataBytes);
-	bmpFile.Close();
+	memcpy(p->pBmpInfo, &p->bmpInfo, sizeof(BITMAPINFOHEADER));
+	DWORD dataBytes = p->bmpHeader.bfSize - p->bmpHeader.bfOffBits;
+	p->pBmpData = (BYTE*)new char[dataBytes];
+	p->bmpFile.Read(p->pBmpData, dataBytes);
+	p->bmpFile.Close();
+	p->path = (char *)malloc(sizeof(char) * 200);
+	strcpy(p->path, path);
+	if (photohead == NULL)
+		photohead = p;
+	else
+	{
+		p->next = photohead;
+		photohead = p;
+	}
+	return photohead;
+}
 
+CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y)
+{
 	//显示图像
 	CWnd *pWnd = AfxGetApp()->m_pMainWnd; //获得pictrue控件窗口的句柄
 	CDC *pDC = pWnd->GetDC(); //获得pictrue控件的DC
 	pDC->SetStretchBltMode(COLORONCOLOR);
+	PhotoInfo *p = photohead;
+	while (p != NULL)
+	{
+		if (strcmp(p->path,path) == 0)
+			break;
+		else p = p->next;
+	}
 	if(path == PATH_BULLET)
 		StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, 0, 0,
-			bmpInfo.biWidth, bmpInfo.biHeight, pBmpData, pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
+			p->bmpInfo.biWidth, p->bmpInfo.biHeight, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
 	else if(path == PATH_BACK)
 		StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, X - 2 * BulletX, SizeY - Y,
-			BulletX, BulletY, pBmpData, pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
-	free(pBmpData);
+			BulletX, BulletY, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
 	return pDC;
+}
+
+extern unsigned timercount;
+void CThunderCrossMFCDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	switch (nIDEvent)
+	{
+	case 1: timercount++; break;
+	default:break;
+	}
+	CDialogEx::OnTimer(nIDEvent);
 }
