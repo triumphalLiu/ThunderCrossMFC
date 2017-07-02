@@ -100,26 +100,27 @@ void play(CWnd *pause)
 		else
 		{
 			plane.level = plane.score / 20;	//升级
-				/*
-				//判断自己是否被子弹打中
-				if (0 == Bullet.check(Bullet.head, plane.loc[0], plane.loc[1], 1))
-					break;
-				
-				//判断子弹是否打中敌机
-				for (int i = 0; i < Enemy.count; ++i)
+			
+			//判断自己是否被子弹打中
+			if (0 == Bullet.check(Bullet.head, plane.loc[0], plane.loc[1], 1))
+				break;
+			
+			//判断子弹是否打中敌机
+			for (int i = 0; i < Enemy.count; ++i)
+			{
+				int x = Enemy.getinfo(i, 0);
+				int y = Enemy.getinfo(i, 1);
+				if (x != -1 && 0 == Bullet.check(Bullet.head, x, y, 0))
 				{
-					int x = Enemy.getinfo(i, 0);
-					int y = Enemy.getinfo(i, 1);
-					if (x != -1 && 0 == Bullet.check(Bullet.head, x, y, 0))
-					{
-						Enemy.head = Enemy.destroyed(i);
-						plane.score++;
-					}
+					Enemy.head = Enemy.destroyed(i);
+					--i;
+					plane.score++;
 				}
-				//判断有没有碰到敌机
-				if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
-					break;
-				*/
+			}
+			//判断有没有碰到敌机
+			if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
+				break;
+			
 		}
 		if (exit_game)
 			break;

@@ -108,12 +108,21 @@ bool bullet::check(Bair *&head, int x, int y, int flag)  // dead=0
 	Bair *p = head;
 	while (p != NULL)
 	{
-		if (p->flag | flag && p->loc[0] == x && p->loc[1] == y)
+		Bair *nxt = p->next;
+		if (p->flag | flag)
 		{
-			head = bullet::del(p, head);
-			return 0;
+			if (flag == 0 && (p->loc[0] >= x && p->loc[0] <= x + SizeEnemy) && (p->loc[1] >= y && p->loc[1] <= y + SizeEnemy))
+			{
+				head = bullet::del(p, head);
+				return 0;
+			}
+			else if (flag == 1 && (p->loc[0] >= x && p->loc[0] <= x + Hero) && (p->loc[1] >= y && p->loc[1] <= y + Hero))
+			{
+				head = bullet::del(p, head);
+				return 0;
+			}
 		}
-		p = p->next;
+		p = nxt;
 	}
 	return 1;
 }

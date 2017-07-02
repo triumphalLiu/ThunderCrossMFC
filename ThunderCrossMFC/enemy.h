@@ -63,7 +63,7 @@ Eair *enemy::move(Eair *head)
 		newbullet.AddPhotoActively(PATH_BACK, p->loc[0], p->loc[1], 1);
 		p->loc[1] += SizeEnemy / 2;
 		Eair *nxt = p->next;
-		if (p->loc[1] >= 800)
+		if (p->loc[1] > 800)
 		{
 			head = enemy::destroyed(i);
 			i--;
@@ -90,6 +90,7 @@ int enemy::getinfo(int i, int option)
 
 Eair *enemy::destroyed(int i)
 {
+	CThunderCrossMFCDlg newbullet;
 	--enemy::count;
 	Eair *p = enemy::head;
 	if (i == 0)
@@ -97,7 +98,7 @@ Eair *enemy::destroyed(int i)
 		enemy::head = p->next;
 		int x = p->loc[0];
 		int y = p->loc[1];
-		//PrintChar(" ", 1, x, y);
+		newbullet.AddPhotoActively(PATH_BACK, x, y, 1);
 		free(p);
 		return enemy::head;
 	}
@@ -108,6 +109,7 @@ Eair *enemy::destroyed(int i)
 	int x = del->loc[0];
 	int y = del->loc[1];
 	//PrintChar(" ", 1, x, y);
+	newbullet.AddPhotoActively(PATH_BACK, x, y, 1);
 	free(del);
 	return enemy::head;
 }
@@ -117,7 +119,8 @@ int enemy::check(Eair *head, int x, int y)
 	Eair *p = head;
 	while (p != NULL)
 	{
-		if (p->loc[1] >= 40 || (p->loc[0] == x && p->loc[1] == y))
+		if (p->loc[1] >= SizeY - Hero || (p->loc[0] > x && p->loc[0] < x + Hero &&
+			p->loc[1] + SizeEnemy > y && p->loc[1] + SizeEnemy < y + Hero))
 			return 0;
 		p = p->next;
 	}
