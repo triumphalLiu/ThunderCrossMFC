@@ -6,8 +6,6 @@
 //音乐控制
 #include <mmsystem.h>
 #pragma comment(lib, "Winmm.lib")
-//TODO:发布前修改PATH
-#define PATH "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\game_music.wav"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -102,7 +100,7 @@ BOOL CThunderCrossMFCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP); //初始化声音
+	PlaySound(TEXT(PATH_MUSIC), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP); //初始化声音
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -203,7 +201,7 @@ void CThunderCrossMFCDlg::OnStnClickedSoundtooff()
 
 void CThunderCrossMFCDlg::OnStnClickedSoundtoon()
 {
-	PlaySound(TEXT(PATH), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySound(TEXT(PATH_MUSIC), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	CEdit *edit1 = (CEdit*)GetDlgItem(IDC_SoundToOn);
 	edit1->ShowWindow(SW_HIDE);
 	CEdit *edit2 = (CEdit*)GetDlgItem(IDC_SoundToOFF);
@@ -241,8 +239,12 @@ CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y)
 	CWnd *pWnd = AfxGetApp()->m_pMainWnd; //获得pictrue控件窗口的句柄
 	CDC *pDC = pWnd->GetDC(); //获得pictrue控件的DC
 	pDC->SetStretchBltMode(COLORONCOLOR);
-	StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, 0, 0,
-		bmpInfo.biWidth, bmpInfo.biHeight, pBmpData, pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
+	if(path == PATH_BULLET)
+		StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, 0, 0,
+			bmpInfo.biWidth, bmpInfo.biHeight, pBmpData, pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
+	else if(path == PATH_BACK)
+		StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, X - 2 * BulletX, SizeY - Y,
+			BulletX, BulletY, pBmpData, pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
 	free(pBmpData);
 	return pDC;
 }

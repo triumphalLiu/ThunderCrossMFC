@@ -15,3 +15,9 @@
 #define Hero 100
 #define BulletX 5
 #define BulletY 11
+
+//TODO:ÐÞ¸ÄPATH
+#define HERO "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\hero.bmp"
+#define PATH_BULLET "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\bullet_self.bmp"
+#define PATH_BACK "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\background.bmp"
+#define PATH_MUSIC "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\game_music.wav"

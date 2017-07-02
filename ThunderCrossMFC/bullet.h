@@ -1,6 +1,5 @@
 #pragma once
 #include "common.h"
-#define PATH_BULLET "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\bullet_self.bmp"
 struct Bair {
 	int loc[2];
 	int flag;
@@ -19,7 +18,7 @@ public:
 	void init();
 	Bair *add(Bair *, int, int, int);
 	Bair *move(Bair *);
-	Bair *del(Bair *, Bair *);
+	Bair *del(Bair *, Bair *&);
 	bool check(Bair *&, int, int, int);
 private:
 
@@ -53,11 +52,13 @@ Bair *bullet::add(Bair *head, int x, int y, int flag)
 	head->pdc = newbullet.AddPhotoActively(PATH_BULLET, x, y);
 	return head;
 }
-Bair *bullet::del(Bair *node, Bair *head)
+Bair *bullet::del(Bair *node, Bair *&head)
 {
+	CThunderCrossMFCDlg newbullet;
 	if (node == head)
 	{
-		head = NULL;
+		node->pdc = newbullet.AddPhotoActively(PATH_BACK, node->loc[0], node->loc[1]);
+		head = head->next;
 	}
 	else
 	{
@@ -68,6 +69,7 @@ Bair *bullet::del(Bair *node, Bair *head)
 		}
 		Bair *del = p->next;
 		p->next = del->next;
+		del->pdc = newbullet.AddPhotoActively(PATH_BACK, del->loc[0], del->loc[1]);
 		free(del);
 	}
 	return head;
@@ -76,15 +78,17 @@ Bair *bullet::del(Bair *node, Bair *head)
 Bair *bullet::move(Bair *head)
 {
 	Bair *p = head;
+	CThunderCrossMFCDlg newbullet;
 	while (p != NULL)
 	{
 		//PrintChar(" ", 1, p->loc[0], p->loc[1]);
+		p->pdc = newbullet.AddPhotoActively(PATH_BACK, p->loc[0], p->loc[1]);
 		if (p->flag == 1)
-			p->loc[1] -= 1;
+			p->loc[1] -= BulletY;
 		else if (p->flag == 0)
-			p->loc[1] += 1;
+			p->loc[1] += BulletY;
 		Bair *n = p->next;
-		if (p->loc[1] == -1 || p->loc[1] == 81)
+		if (p->loc[1] <= Hero || p->loc[1] >= SizeY)
 		{
 			head = bullet::del(p, head);
 			if (head == NULL)
@@ -93,6 +97,7 @@ Bair *bullet::move(Bair *head)
 		else
 		{
 			//PrintChar("|", 1, p->loc[0], p->loc[1]);
+			p->pdc = newbullet.AddPhotoActively(PATH_BULLET, p->loc[0], p->loc[1]);
 		}
 		p = n;
 	}

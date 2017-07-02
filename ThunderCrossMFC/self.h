@@ -1,7 +1,5 @@
 #pragma once
 #include "common.h"
-//TODO:ÐÞ¸ÄPATH
-#define HERO "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\hero.bmp"
 class self
 {
 public:

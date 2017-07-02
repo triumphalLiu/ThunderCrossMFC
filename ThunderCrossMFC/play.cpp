@@ -46,6 +46,14 @@ void play(CWnd *pause)
 					break;
 				case 'H': 
 					Bullet.head = Bullet.add(Bullet.head, plane.loc[0] + (Hero + BulletX / 2) / 2, plane.loc[1] - BulletY, 1); break;
+				case 'M':
+					Bullet.head = Bullet.move(Bullet.head); break;
+				/*case 'I':
+					//For Debug
+					while (p != NULL)
+					{
+						p = p->next;
+					}break;*/
 				default: break; //MessageBox(msg.hwnd, L"Other", 0, 0); break;
 				}
 			}
