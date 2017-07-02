@@ -117,6 +117,7 @@ BOOL CThunderCrossMFCDlg::OnInitDialog()
 	PlaySound(TEXT(PATH_MUSIC), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP); //初始化声音
 	photohead = load_photo(photohead, PATH_BACK);
 	photohead = load_photo(photohead, PATH_BULLET);
+	photohead = load_photo(photohead, PATH_ENEMY);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -257,7 +258,7 @@ PhotoInfo *load_photo(PhotoInfo *head, char *path)
 	return photohead;
 }
 
-CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y)
+CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y, int flag)
 {
 	//显示图像
 	CWnd *pWnd = AfxGetApp()->m_pMainWnd; //获得pictrue控件窗口的句柄
@@ -273,18 +274,28 @@ CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y)
 	if(path == PATH_BULLET)
 		StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, 0, 0,
 			p->bmpInfo.biWidth, p->bmpInfo.biHeight, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
-	else if(path == PATH_BACK)
+	else if(path == PATH_ENEMY)
+		StretchDIBits(pDC->GetSafeHdc(), X, Y, SizeEnemy, SizeEnemy, 0, 0,
+			p->bmpInfo.biWidth, p->bmpInfo.biHeight, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
+	else if(path == PATH_BACK && flag == 0)
 		StretchDIBits(pDC->GetSafeHdc(), X, Y, BulletX, BulletY, X - 2 * BulletX, SizeY - Y,
 			BulletX, BulletY, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
+	else if(path == PATH_BACK && flag == 1)
+		StretchDIBits(pDC->GetSafeHdc(), X, Y, SizeEnemy, SizeEnemy, X, Y,
+			SizeEnemy, SizeEnemy, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
 	return pDC;
 }
 
-extern unsigned timercount;
+extern int enemy_born();
+extern int enemy_moveshot();
+extern int shot();
 void CThunderCrossMFCDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	switch (nIDEvent)
 	{
-	case 1: timercount++; break;
+	case 1: shot(); break;
+	case 2: enemy_born(); break;
+	case 3: enemy_moveshot(); break;
 	default:break;
 	}
 	CDialogEx::OnTimer(nIDEvent);

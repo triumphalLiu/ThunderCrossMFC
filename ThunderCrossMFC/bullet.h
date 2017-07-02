@@ -49,7 +49,7 @@ Bair *bullet::add(Bair *head, int x, int y, int flag)
 	}
 	//PrintChar("|", 1, p->loc[0], p->loc[1]);
 	CThunderCrossMFCDlg newbullet;
-	head->pdc = newbullet.AddPhotoActively(PATH_BULLET, x, y);
+	head->pdc = newbullet.AddPhotoActively(PATH_BULLET, x, y, 0);
 	return head;
 }
 Bair *bullet::del(Bair *node, Bair *&head)
@@ -57,7 +57,7 @@ Bair *bullet::del(Bair *node, Bair *&head)
 	CThunderCrossMFCDlg newbullet;
 	if (node == head)
 	{
-		node->pdc = newbullet.AddPhotoActively(PATH_BACK, node->loc[0], node->loc[1]);
+		node->pdc = newbullet.AddPhotoActively(PATH_BACK, node->loc[0], node->loc[1], 0);
 		head = head->next;
 	}
 	else
@@ -69,7 +69,7 @@ Bair *bullet::del(Bair *node, Bair *&head)
 		}
 		Bair *del = p->next;
 		p->next = del->next;
-		del->pdc = newbullet.AddPhotoActively(PATH_BACK, del->loc[0], del->loc[1]);
+		del->pdc = newbullet.AddPhotoActively(PATH_BACK, del->loc[0], del->loc[1], 0);
 		free(del);
 	}
 	return head;
@@ -82,7 +82,7 @@ Bair *bullet::move(Bair *head)
 	while (p != NULL)
 	{
 		//PrintChar(" ", 1, p->loc[0], p->loc[1]);
-		p->pdc = newbullet.AddPhotoActively(PATH_BACK, p->loc[0], p->loc[1]);
+		p->pdc = newbullet.AddPhotoActively(PATH_BACK, p->loc[0], p->loc[1], 0);
 		if (p->flag == 1)
 			p->loc[1] -= BulletY;
 		else if (p->flag == 0)
@@ -97,7 +97,7 @@ Bair *bullet::move(Bair *head)
 		else
 		{
 			//PrintChar("|", 1, p->loc[0], p->loc[1]);
-			p->pdc = newbullet.AddPhotoActively(PATH_BULLET, p->loc[0], p->loc[1]);
+			p->pdc = newbullet.AddPhotoActively(PATH_BULLET, p->loc[0], p->loc[1], 0);
 		}
 		p = n;
 	}

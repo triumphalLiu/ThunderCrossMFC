@@ -4,26 +4,58 @@
 #include "enemy.h"
 #include "bullet.h"
 #pragma warning (disable:4996)
-int gap[6] = { 1000,800,600,400,200,80 };
-unsigned timercount = 0;
+
+self plane; //新建己方对象
+enemy Enemy;
+bullet Bullet; //新建子弹对象
+
 int wait();
+int enemy_born()
+{
+	int x = (rand() * rand()) % (SizeX / SizeEnemy - 2);
+	x *= SizeEnemy;
+	x += SizeEnemy * 3 / 2;
+	Enemy.head = Enemy.create(Enemy.head, x);
+	//TODO:敌机射击功能暂时关闭，待图片加载优化完成再打开
+	//Bullet.head = Bullet.add(Bullet.head, x+SizeEnemy/2, 2*SizeEnemy, 0);
+	return 0;
+}
+
+int enemy_moveshot()
+{
+	//敌机移动及射击
+	Enemy.head = Enemy.move(Enemy.head);
+	/*
+	for (int i = 0; i < Enemy.count; ++i)
+	{
+	int x = Enemy.getinfo(i, 0);
+	int y = Enemy.getinfo(i, 1);
+	if (x != -1)
+		Bullet.head = Bullet.add(Bullet.head, x, y, 0);
+	}
+	*/
+	return 0;
+}
+
+int shot()
+{
+	Bullet.head = Bullet.move(Bullet.head);
+	return 0;
+}
+
 void play(CWnd *pause)
 {
 	srand((unsigned)time(0));
 	//游戏开始
 	MSG msg;
 	CWnd *cwnd = AfxGetApp()->m_pMainWnd;
-	cwnd->SetTimer(1, 1, NULL);
+	cwnd->SetTimer(1, 10, NULL);
+	cwnd->SetTimer(2, 1000, NULL);
+	cwnd->SetTimer(3, 500, NULL);
 	bool exit_game = 0;
-	self plane; //新建己方对象
 	plane.create((SizeX - Hero), SizeY - Hero); //初始化飞机
-	bullet Bullet; //新建子弹对象
 	Bullet.init();
-	Bair *p = Bullet.head;
-	/*
-	enemy Enemy;
 	Enemy.init();
-	*/
 	while (TRUE)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -52,13 +84,13 @@ void play(CWnd *pause)
 				/*
 				case 'M':
 					Bullet.head = Bullet.move(Bullet.head); break;
-				*/
+				
 				case 'I':
 					//For Debug
 					while (p != NULL)
 					{
 						p = p->next;
-					}break;
+					}break;*/
 				default: break; //MessageBox(msg.hwnd, L"Other", 0, 0); break;
 				}
 			}
@@ -68,14 +100,11 @@ void play(CWnd *pause)
 		else
 		{
 			plane.level = plane.score / 20;	//升级
-			Bullet.count = timercount;
-			if (Bullet.count % 5 == 0)
-			{
-				Bullet.head = Bullet.move(Bullet.head);
+				/*
 				//判断自己是否被子弹打中
 				if (0 == Bullet.check(Bullet.head, plane.loc[0], plane.loc[1], 1))
 					break;
-				/*
+				
 				//判断子弹是否打中敌机
 				for (int i = 0; i < Enemy.count; ++i)
 				{
@@ -87,40 +116,17 @@ void play(CWnd *pause)
 						plane.score++;
 					}
 				}
-				//敌机移动及生成
-				if (Bullet.count == gap[plane.level] / 2)
-				{
-					Enemy.move(Enemy.head);
-					for (int i = 0; i < Enemy.count; ++i)
-					{
-						int x = Enemy.getinfo(i, 0);
-						int y = Enemy.getinfo(i, 1);
-						if (x != -1)
-							Bullet.head = Bullet.add(Bullet.head, x, y, 0);
-					}
-				}
-				if (Bullet.count == gap[plane.level]) //生成敌机
-				{
-					int x = (rand() * rand()) % SizeX;
-					Enemy.head = Enemy.create(Enemy.head, x);
-					Bullet.head = Bullet.add(Bullet.head, x, 0, 0);
-					Bullet.count = 0;
-				}
+				//判断有没有碰到敌机
+				if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
+					break;
 				*/
-				if (Bullet.count == 1000)
-				{
-					timercount = Bullet.count = 0;
-				}
-			}
 		}
-		/*
-		//判断有没有碰到敌机
-		if (0 == Enemy.check(Enemy.head, plane.loc[0], plane.loc[1]))
-			break;
-		*/
 		if (exit_game)
 			break;
 	}
+	cwnd->KillTimer(1);
+	cwnd->KillTimer(2);
+	cwnd->KillTimer(3);
 	CString buffer;
 	buffer.Format(_T("你的分数是%d, 最高关卡是%d"), plane.score, plane.level);
 	AfxMessageBox(buffer);

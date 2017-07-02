@@ -33,7 +33,7 @@ void enemy::init()
 
 Eair *enemy::create(Eair *head, int x)
 {
-	int y = 0;
+	int y = 50;
 	Eair *p = new Eair;
 	p->loc[0] = x;
 	p->loc[1] = y;
@@ -46,19 +46,33 @@ Eair *enemy::create(Eair *head, int x)
 		head = p;
 	}
 	//PrintChar("#", 1, p->loc[0], p->loc[1]);
+	CThunderCrossMFCDlg newbullet;
+	newbullet.AddPhotoActively(PATH_ENEMY, x, y, 1);
 	++enemy::count;
 	return head;
 }
 
 Eair *enemy::move(Eair *head)
 {
+	CThunderCrossMFCDlg newbullet;
 	Eair *p = head;
+	int  i = 0;
 	while (p != NULL)
 	{
 		//PrintChar(" ", 1, p->loc[0], p->loc[1]);
-		p->loc[1] += 1;
+		newbullet.AddPhotoActively(PATH_BACK, p->loc[0], p->loc[1], 1);
+		p->loc[1] += SizeEnemy / 2;
+		Eair *nxt = p->next;
+		if (p->loc[1] >= 800)
+		{
+			head = enemy::destroyed(i);
+			i--;
+		}
 		//PrintChar("#", 1, p->loc[0], p->loc[1]);
-		p = p->next;
+		else
+			newbullet.AddPhotoActively(PATH_ENEMY, p->loc[0], p->loc[1], 1);
+		p = nxt;
+		++i;
 	}
 	return head;
 }
