@@ -28,7 +28,7 @@ void self::move_to(int X, int Y)
 
 void self::create(int X, int Y)
 {
-	self::level = 1;
+	self::level = 0;
 	self::score = 0;
 	self::loc[0] = X;
 	self::loc[1] = Y;

@@ -17,8 +17,15 @@
 #define BulletY 11
 #define SizeEnemy 50
 //TODO:ÐÞ¸ÄPATH
+/*
 #define HERO "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\hero.bmp"
 #define PATH_BULLET "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\bullet_self.bmp"
 #define PATH_BACK "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\background.bmp"
 #define PATH_MUSIC "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\game_music.wav"
 #define PATH_ENEMY "L:\\ThunderCrossMFC\\ThunderCrossMFC\\res\\enemy.bmp"
+*/
+#define HERO "res\\hero.bmp"
+#define PATH_BULLET "res\\bullet_self.bmp"
+#define PATH_BACK "res\\background.bmp"
+#define PATH_MUSIC "res\\game_music.wav"
+#define PATH_ENEMY "res\\enemy.bmp"

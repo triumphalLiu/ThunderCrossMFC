@@ -49,8 +49,8 @@ void play(CWnd *pause)
 	//游戏开始
 	MSG msg;
 	CWnd *cwnd = AfxGetApp()->m_pMainWnd;
-	cwnd->SetTimer(1, 10, NULL);
-	cwnd->SetTimer(2, 1000, NULL);
+	cwnd->SetTimer(1, 5, NULL);
+	cwnd->SetTimer(2, 1500, NULL);
 	cwnd->SetTimer(3, 500, NULL);
 	bool exit_game = 0;
 	plane.create((SizeX - Hero), SizeY - Hero); //初始化飞机
@@ -99,7 +99,7 @@ void play(CWnd *pause)
 		}
 		else
 		{
-			plane.level = plane.score / 20;	//升级
+			plane.level = plane.score / 20 + 1;	//升级
 			
 			//判断自己是否被子弹打中
 			if (0 == Bullet.check(Bullet.head, plane.loc[0], plane.loc[1], 1))
