@@ -42,7 +42,8 @@ int shot()
 	Bullet.head = Bullet.move(Bullet.head);
 	return 0;
 }
-
+#define LEVEL_GAP 5
+#define MAX_LEVEL 5 //WARNING 修改此值后 记得修改下面的数组
 int born_time[] = {-1, 1500, 1200, 1000, 800, 600 };
 int move_time[] = {-1, 500, 400, 300, 200, 100 };
 void play(CWnd *pause)
@@ -102,7 +103,7 @@ void play(CWnd *pause)
 		else
 		{
 			int last_level = plane.level;
-			plane.level = plane.level < 5 ? plane.score / 3 + 1 : 5;	//升级
+			plane.level = plane.level < MAX_LEVEL ? plane.score / LEVEL_GAP + 1 : MAX_LEVEL;	//升级
 			if (plane.level <= 5 && last_level != plane.level)
 			{
 				cwnd->KillTimer(2);

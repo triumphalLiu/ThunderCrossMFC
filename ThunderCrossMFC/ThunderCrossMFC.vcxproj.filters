@@ -104,5 +104,14 @@
     <Image Include="res\enemy.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\help.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\helppage.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\watchsc.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

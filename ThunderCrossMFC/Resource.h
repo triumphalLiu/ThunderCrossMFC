@@ -19,6 +19,9 @@
 #define IDB_BITMAP9                     141
 #define IDB_BITMAP10                    143
 #define IDB_BITMAP11                    144
+#define IDB_BITMAP12                    145
+#define IDB_BITMAP13                    146
+#define IDB_BITMAP14                    147
 #define IDC_StartGame                   1000
 #define IDC_GameName                    1001
 #define IDC_GameIcon                    1002
@@ -27,14 +30,17 @@
 #define IDC_ExitGame                    1005
 #define IDC_Hero                        1006
 #define IDC_Pause                       1007
+#define IDC_MYHELP                      1008
+#define IDC_HELPPAGE                    1009
+#define IDC_WATCHSC                     1010
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        145
+#define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

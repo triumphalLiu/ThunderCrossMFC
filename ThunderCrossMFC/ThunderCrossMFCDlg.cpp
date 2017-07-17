@@ -66,6 +66,9 @@ BEGIN_MESSAGE_MAP(CThunderCrossMFCDlg, CDialogEx)
 	ON_STN_CLICKED(IDC_SoundToOn, &CThunderCrossMFCDlg::OnStnClickedSoundtoon)
 	ON_STN_CLICKED(IDC_ExitGame, &CThunderCrossMFCDlg::OnStnClickedExitgame)
 	ON_WM_TIMER()
+	ON_STN_CLICKED(IDC_MYHELP, &CThunderCrossMFCDlg::OnStnClickedHelp)
+	ON_STN_CLICKED(IDC_HELPPAGE, &CThunderCrossMFCDlg::OnStnClickedHelppage)
+	ON_STN_CLICKED(IDC_WATCHSC, &CThunderCrossMFCDlg::OnStnClickedWatchsc)
 END_MESSAGE_MAP()
 
 
@@ -180,6 +183,10 @@ void CThunderCrossMFCDlg::OnStnClickedStartgame()
 	edit2->ShowWindow(SW_HIDE);
 	CEdit *edit3 = (CEdit*)GetDlgItem(IDC_ExitGame);
 	edit3->ShowWindow(SW_HIDE);
+	CEdit *edit4 = (CEdit*)GetDlgItem(IDC_MYHELP);
+	edit4->ShowWindow(SW_HIDE);
+	CEdit *edit5 = (CEdit*)GetDlgItem(IDC_WATCHSC);
+	edit5->ShowWindow(SW_HIDE);
 	//隐藏不相关内容
 	CEdit *edit = (CEdit*)GetDlgItem(IDC_Hero);
 	edit->ShowWindow(SW_SHOW);
@@ -194,6 +201,8 @@ void CThunderCrossMFCDlg::OnStnClickedStartgame()
 	edit1->ShowWindow(SW_SHOW);
 	edit2->ShowWindow(SW_SHOW);
 	edit3->ShowWindow(SW_SHOW);
+	edit4->ShowWindow(SW_SHOW);
+	edit5->ShowWindow(SW_SHOW);
 	edit->ShowWindow(SW_HIDE);
 }
 
@@ -201,6 +210,40 @@ void CThunderCrossMFCDlg::OnStnClickedExitgame()
 {
 	DestroyWindow();
 	exit(0);
+}
+
+void CThunderCrossMFCDlg::OnStnClickedWatchsc()
+{
+	ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/triumphalLiu/ThunderCrossMFC"), 
+		NULL, NULL, SW_MINIMIZE);
+}
+
+void CThunderCrossMFCDlg::OnStnClickedHelp()
+{
+	CEdit *edit0 = (CEdit*)GetDlgItem(IDC_StartGame);
+	edit0->ShowWindow(SW_HIDE);
+	CEdit *edit3 = (CEdit*)GetDlgItem(IDC_ExitGame);
+	edit3->ShowWindow(SW_HIDE);
+	CEdit *edit4 = (CEdit*)GetDlgItem(IDC_MYHELP);
+	edit4->ShowWindow(SW_HIDE);
+	CEdit *edit5 = (CEdit*)GetDlgItem(IDC_WATCHSC);
+	edit5->ShowWindow(SW_HIDE);
+	CEdit *edit = (CEdit*)GetDlgItem(IDC_HELPPAGE);
+	edit->ShowWindow(SW_SHOW);
+}
+
+void CThunderCrossMFCDlg::OnStnClickedHelppage()
+{
+	CEdit *edit0 = (CEdit*)GetDlgItem(IDC_StartGame);
+	edit0->ShowWindow(SW_SHOW);
+	CEdit *edit3 = (CEdit*)GetDlgItem(IDC_ExitGame);
+	edit3->ShowWindow(SW_SHOW);
+	CEdit *edit4 = (CEdit*)GetDlgItem(IDC_MYHELP);
+	edit4->ShowWindow(SW_SHOW);
+	CEdit *edit5 = (CEdit*)GetDlgItem(IDC_WATCHSC);
+	edit5->ShowWindow(SW_SHOW);
+	CEdit *edit = (CEdit*)GetDlgItem(IDC_HELPPAGE);
+	edit->ShowWindow(SW_HIDE);
 }
 
 //音乐控制

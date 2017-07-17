@@ -220,9 +220,12 @@
     <Image Include="res\game_pause_pressed.bmp" />
     <Image Include="res\game_resume_pressed.bmp" />
     <Image Include="res\game_start.bmp" />
+    <Image Include="res\help.bmp" />
+    <Image Include="res\helppage.bmp" />
     <Image Include="res\hero.bmp" />
     <Image Include="res\shoot_copyright.bmp" />
     <Image Include="res\ThunderCrossMFC.ico" />
+    <Image Include="res\watchsc.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
