@@ -53,7 +53,7 @@ void play(CWnd *pause)
 	MSG msg;
 	CWnd *cwnd = AfxGetApp()->m_pMainWnd;
 	plane.create((SizeX - Hero), SizeY - Hero); //³õÊ¼»¯·É»ú
-	cwnd->SetTimer(1, 5, NULL);
+	cwnd->SetTimer(1, 2, NULL);
 	cwnd->SetTimer(2, born_time[plane.level], NULL);
 	cwnd->SetTimer(3, move_time[plane.level], NULL);
 	bool exit_game = 0;
