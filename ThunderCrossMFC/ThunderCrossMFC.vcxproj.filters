@@ -98,5 +98,11 @@
     <Image Include="res\game_pause.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\bullet_self.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\enemy.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

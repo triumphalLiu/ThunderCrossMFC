@@ -284,6 +284,36 @@ CDC *CThunderCrossMFCDlg::AddPhotoActively(char *path, int X, int Y, int flag)
 		StretchDIBits(pDC->GetSafeHdc(), X, Y, SizeEnemy, SizeEnemy, X, Y,
 			SizeEnemy, SizeEnemy, p->pBmpData, p->pBmpInfo, DIB_RGB_COLORS, SRCCOPY);
 	return pDC;
+	/*
+	CDC memDC;//定义一个设备上下文
+	memDC.CreateCompatibleDC(pDC);//创建兼容的设备上下文
+	CBitmap bmp;//定义位图对象
+	if(path == PATH_BULLET)
+	{
+		bmp.LoadBitmap(IDB_BITMAP10);//加载位图
+		memDC.SelectObject(&bmp);//选中位图对象
+		pDC->BitBlt(X, Y, BulletX, BulletY, &memDC, 0, 0, SRCCOPY);//绘制位图
+	}
+	else if (path == PATH_ENEMY)
+	{
+		bmp.LoadBitmap(IDB_BITMAP11);//加载位图
+		memDC.SelectObject(&bmp);//选中位图对象
+		pDC->BitBlt(X, Y, SizeEnemy, SizeEnemy, &memDC, 0, 0, SRCCOPY);//绘制位图
+	}
+	else if (path == PATH_BACK && flag == 0)
+	{
+		bmp.LoadBitmap(IDB_BITMAP1);//加载位图
+		memDC.SelectObject(&bmp);//选中位图对象
+		pDC->BitBlt(X, Y, BulletX, BulletY, &memDC, X - 2 * BulletX, SizeY - Y, SRCCOPY);//绘制位图
+	}
+	else if (path == PATH_BACK && flag == 1)
+	{
+		bmp.LoadBitmap(IDB_BITMAP1);//加载位图
+		memDC.SelectObject(&bmp);//选中位图对象
+		pDC->BitBlt(X, Y, SizeEnemy, SizeEnemy, &memDC, X, Y, SRCCOPY);//绘制位图
+	}
+	return pDC;
+	*/
 }
 
 extern int enemy_born();

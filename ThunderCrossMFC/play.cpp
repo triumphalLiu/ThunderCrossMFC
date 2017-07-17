@@ -43,17 +43,19 @@ int shot()
 	return 0;
 }
 
+int born_time[] = {-1, 1500, 1200, 1000, 800, 600 };
+int move_time[] = {-1, 500, 400, 300, 200, 100 };
 void play(CWnd *pause)
 {
 	srand((unsigned)time(0));
 	//游戏开始
 	MSG msg;
 	CWnd *cwnd = AfxGetApp()->m_pMainWnd;
-	cwnd->SetTimer(1, 5, NULL);
-	cwnd->SetTimer(2, 1500, NULL);
-	cwnd->SetTimer(3, 500, NULL);
-	bool exit_game = 0;
 	plane.create((SizeX - Hero), SizeY - Hero); //初始化飞机
+	cwnd->SetTimer(1, 5, NULL);
+	cwnd->SetTimer(2, born_time[plane.level], NULL);
+	cwnd->SetTimer(3, move_time[plane.level], NULL);
+	bool exit_game = 0;
 	Bullet.init();
 	Enemy.init();
 	while (TRUE)
@@ -99,8 +101,15 @@ void play(CWnd *pause)
 		}
 		else
 		{
-			plane.level = plane.score / 20 + 1;	//升级
-			
+			int last_level = plane.level;
+			plane.level = plane.level < 5 ? plane.score / 3 + 1 : 5;	//升级
+			if (plane.level <= 5 && last_level != plane.level)
+			{
+				cwnd->KillTimer(2);
+				cwnd->KillTimer(3);
+				cwnd->SetTimer(2, born_time[plane.level], NULL);
+				cwnd->SetTimer(3, move_time[plane.level], NULL);
+			}
 			//判断自己是否被子弹打中
 			if (0 == Bullet.check(Bullet.head, plane.loc[0], plane.loc[1], 1))
 				break;

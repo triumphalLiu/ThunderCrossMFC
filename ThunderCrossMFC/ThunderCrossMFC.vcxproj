@@ -212,6 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\background.bmp" />
+    <Image Include="res\bullet_self.bmp" />
+    <Image Include="res\enemy.bmp" />
     <Image Include="res\gameload.bmp" />
     <Image Include="res\game_exit.bmp" />
     <Image Include="res\game_pause.bmp" />
